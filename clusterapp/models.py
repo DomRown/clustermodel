@@ -19,20 +19,21 @@ class Movies(models.Model):
 	release_date=models.CharField(max_length=30)
 	plot=models.CharField(max_length=1000)
 
+
 class Director(models.Model):
 	id=models.IntegerField(primary_key=True)
 	fullname=models.CharField(max_length=200)
-	movie_id=models.IntegerField()
+	movie_ref=models.ForeignKey(Movies, db_column='movie_ref')
 
 class Genres(models.Model):
 	id=models.IntegerField(primary_key=True)
-	genre=models.CharField(max_length=30)
-	movie_id=models.ForeignKey(Movies)
+	genre=models.CharField("genre type",max_length=200, db_column='genre')
+	movie_ref=models.ForeignKey(Movies, db_column='movie_ref')
 
 class Actors(models.Model):		
 	id=models.IntegerField(primary_key=True)
-	fullname=models.CharField(max_length=200)
-	movie_id=models.IntegerField()
+	fullname=models.CharField("actors full name",max_length=200)
+	movie_ref=models.ForeignKey(Movies, db_column='movie_ref')
 
 class Iris(models.Model):
     sepal_length=models.IntegerField()
@@ -81,7 +82,7 @@ def norm(d):
 #Kmeans is a model function, as it is grouping objects from the database based on attributes
 #Kmeans 3 params - data, a function to aquire distance metric&number of clusters
 def kmeans(data,distance=euclidean,k=4):
-    print data
+    #print data
     rows=[]
     for i in data:
         rows.append(i[:2])

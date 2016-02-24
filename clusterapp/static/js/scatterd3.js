@@ -148,7 +148,7 @@ function scatter_d3(data,set){
     test=document.getElementById("tooltipside");
     test.innerHTML = ("");
     console.log("mouseDow");
-    test.innerHTML = (d[2]);
+    test.innerHTML = (d);
 
   };
 
