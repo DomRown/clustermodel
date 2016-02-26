@@ -14,14 +14,18 @@
 	}
 	</style>
 	<script type="text/javascript" src="/static/js/scatterd3.js"></script>
-
 	<script type="text/javascript" src="/static/js/main.js"></script>
-	<script type="text/javascript" src="/static/js/jquery.min.js"></script>
-	<script type="text/javascript" src="/static/js/d3.min.js" charset="utf-8"></script>
-	<script type="text/javascript" src="/static/css/main.css"></script>
+	<script type="text/javascript" src="/static/js/jquery-1.12.1.min.js"></script>
+	<script type="text/javascript" src="/static/js/d3.js" charset="utf-8"></script>
+	<script type="text/javascript" src="/static/js/modal.js" charset="utf-8"></script>
+	
 	<script>
-	var dots = $("circle").length;
-	$("#dotcount").html("<h1>"+dots+"</h1>");
+	function movieDetails(d){
+		//$("#tooltipside").append("<li>");
+		$.each(d, function(i, item){
+			$("#tooltipside").append("<li>"+d[i]+"</li></br>");
+		});
+	};
 	</script>	
 
 </head>
@@ -30,11 +34,16 @@
 	<h1>Clustered Data: {{dataset}} with {{kclusters}} clusters.</h1>
 	<div id="scatterarea">
 		<script>
+			var d = new Date();
+			var start = d.getTime();
+			console.log(start-new Date().getTime()/1000);
 			var settype={{settype|safe}};
 			var data= {{data|safe}};
-    		scatter_d3(data,settype);
-	    </script>
-	    	</div>
-	    		<div id="tooltipside">
-				</div>
+		
+    		scatter_d3(data,settype);//,movieDetails
+    		console.log(start-new Date().getTime()/1000);
+    		</script>
+    	</div>
+		<div id="tooltipside">
+		</div>
 </body>

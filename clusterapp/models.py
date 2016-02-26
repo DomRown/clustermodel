@@ -47,7 +47,10 @@ Moviesall=Movies.objects.all()
 Directorsall=Director.objects.all()
 Actorsall=Actors.objects.all()
 Genresall=Genres.objects.all()
-Irisall=Iris.objects.all()   
+Irisall=Iris.objects.all()
+
+
+   
 
 #Euclidean distance metric for Kmeans
 #Input: Two "points" 
@@ -86,18 +89,28 @@ def kmeans(data,distance=euclidean,k=4):
     rows=[]
     for i in data:
         rows.append(i[:2])
+    #print rows
+    
     #euclidrange creates list of min/max pairs 
     euclidrange=[(min([row[i] for row in rows]),max([row[i] for row in rows]))
+    #[min(rows, key=lambda item: (item[0], -item[1])),max(rows, key=lambda item: (item[0], -item[1]))]
+    
+                for i in range(len(rows[0]))] 
 
-    for i in range(len(rows[0]))] 
-
+    #euclidrange=[(12,5),(67,8.4)]
+    #print euclidrange
     #create k randomly placed centroids within len of 'data'
+   
     centroids=[[random.random()*(euclidrange[i][1]-euclidrange[i][0])+euclidrange[i][0]
     
-    for i in range(len(rows[0]))] for j in range(k)]   
+    for i in range(len(rows[0]))] for j in range(k)] 
+    #centroids=[(51,7),(22,6.5),(89,6)]
+    # print 'centroids'
+    # print centroids
+    # print 'centroids'
     lastmatches=None
-    for t in range(5):
-       #print 'Iteration %d' % t
+    for t in range(2):
+        print 'Iteration %d' % t
         #A list of k lists
         groups=[[] for i in range(k)]
 
@@ -112,29 +125,42 @@ def kmeans(data,distance=euclidean,k=4):
             for i in range(k):
                 #euclidean distance between centroid and row coordinate aquired
                 d=distance(centroids[i],row)
+                
                 #if d is further away from 
                 if d<distance(centroids[bestmatch],row):
                     bestmatch=i
             #add index j to groups list    
             groups[bestmatch].append(j)
-
+            #print groups
             
         if groups==lastmatches: break
         lastmatches=groups
         
-        #move centroids to the avg of memebers
+        #no of clusters x
         for i in range(k):
+            #create var avgs @ 0.0
             avgs=[0.0]*len(rows[0])
+
+            #if number of elements in each cluster is > 0
             if len(groups[i])>0:
-                #print(len(bestmatches[i]))
+                #for each element in cluster
                 for rowid in groups[i]:
+                    # for count 2
                     for m in range(len(rows[rowid])):
                         avgs[m]+=rows[rowid][m]
-                    for j in range(len(avgs)):
-                        avgs[j]/=len(groups[i])
-                    centroids[i]=avgs
+                        #for count 2
+                        mean=len(groups[i])
+                for j in range(len(avgs)):
+                        #avgs[0,1] 
+                    avgs[j]/=mean
+                       # print avgs[j]
+                        #print (len(groups[i]))
+                        #print 'en'
+                    #print i
+                centroids[i]=avgs
+                    #print centroids
         coordinates = [[data[index] for index in bestmatch] for bestmatch in groups]
- 
-        return coordinates
+   # print centroids
+    return coordinates
 
 

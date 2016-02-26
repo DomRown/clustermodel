@@ -1,4 +1,4 @@
-function scatter_d3(data,set){
+function scatter_d3(data,set,f){
   
   //Margin properties to buffer d3 visualisation   
   var margin = {top: 20, right: 90, bottom: 30, left: 40},
@@ -6,13 +6,23 @@ function scatter_d3(data,set){
   height = 500 - margin.top - margin.bottom;
 
   //x,y is a discrete linear range from x to width/height
-  
+
+
   var x = d3.scale.linear()
-  .domain([1,100])//d[0]min & max
+  .domain([1,100])  
   .range([0, width]);
   var y = d3.scale.linear()
-  .domain([1,10])
+  .domain([1,100])
   .range([height, 0]);
+
+/*
+  data.forEach(function(cluster,i){ 
+    cluster.forEach(function(d){
+      console.log("d " +d[0]);
+      x.domain(d3.extent(d[0], function(d) {return d;}));
+      y.domain(d3.extent(d[1], function(d) {return d;}));
+    });      
+  });*/
 
   var color = d3.scale.category20();
 
@@ -25,8 +35,8 @@ function scatter_d3(data,set){
   .orient("left");
 
   //Pass this as a parameter from outside
-  var imdb = {ya: "Rating",xa: "Rating Count",grouplabel:"Cluster ", sumCX:function(d){return d*width/100}, sumCY:function(d){return height-d*45}};
-  var iris = {ya: "Sepal Length", xa: "Sepal Width", grouplabel:"Species ",sumCX:function(d){return d*width/10}, sumCY:function(d){return height-d*45}};
+   var imdb = {ya: "Rating",xa: "Rating Count",grouplabel:"Cluster ", sumCX:function(d){return d*width/100}, sumCY:function(d){return height-d*4.5}};
+   var iris = {ya: "Sepal Length", xa: "Sepal Width", grouplabel:"Species ",sumCX:function(d){return d*width/10}, sumCY:function(d){return height-d*45}};
 
   if (set==="ratings"){
     //console.log("rate");
@@ -47,8 +57,7 @@ function scatter_d3(data,set){
   .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
   
-  //x
- //y.domain(d3.extent(data, function(d,i) {return d;}));
+    
   
 
   svg.append("g")
@@ -83,10 +92,12 @@ function scatter_d3(data,set){
   data.forEach(function(cluster, i){
 
     cluster.forEach(function(d,i){
-
+     // console.log(d3.extent(cluster[i][0], function(d,i) {return i;}));
+      
       svg.selectAll(".dot")
       .data(cluster,function(d){
-
+        // x.domain(d3.extent(d[0], function(d,i) {return d;}));
+        // y.domain(d3.extent(d[1], function(d,i) {return d;}));
         return d;
       })
       .enter().append("circle")
@@ -151,6 +162,5 @@ function scatter_d3(data,set){
     test.innerHTML = (d);
 
   };
-
 
 };
