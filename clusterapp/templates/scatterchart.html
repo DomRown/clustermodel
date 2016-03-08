@@ -13,15 +13,18 @@
 
 	}
 	</style>
+	{% load static %}
 	<script type="text/javascript" src="/static/js/scatterd3.js"></script>
 	<script type="text/javascript" src="/static/js/main.js"></script>
+	<script type="text/javascript" src="/static/js/setparams.js"></script>
 	<script type="text/javascript" src="/static/js/jquery-1.12.1.min.js"></script>
 	<script type="text/javascript" src="/static/js/d3.js" charset="utf-8"></script>
+	<link rel="stylesheet" href='{%static 'css/bootstrap.css'}'/>
+    <link rel="stylesheet" href="static/css/bootstrap.min.css"/>
 	<script type="text/javascript" src="/static/js/modal.js" charset="utf-8"></script>
 	
 	<script>
 	function movieDetails(d){
-		//$("#tooltipside").append("<li>");
 		$.each(d, function(i, item){
 			$("#tooltipside").append("<li>"+d[i]+"</li></br>");
 		});
@@ -31,19 +34,15 @@
 </head>
 <body>
 	<button class="btn"><a href="/">Home</a></button>
-	<h1>Clustered Data: {{dataset}} with {{kclusters}} clusters.</h1>
+	<h1>Clustered Data: {{dataset}} with {{clusters}} clusters.</h1>
 	<div id="scatterarea">
 		<script>
-			var d = new Date();
-			var start = d.getTime();
-			console.log(start-new Date().getTime()/1000);
-			var settype={{settype|safe}};
-			var data= {{data|safe}};
-		
-    		scatter_d3(data,settype);//,movieDetails
-    		console.log(start-new Date().getTime()/1000);
-    		</script>
-    	</div>
-		<div id="tooltipside">
-		</div>
+		var settype={{settype|safe}};
+		var data= {{data|safe}};
+		var axes = params(settype);
+		scatter_d3(data,axes);//,movieDetails
+		</script>
+	</div>
+	<div id="tooltipside">
+	</div>
 </body>
